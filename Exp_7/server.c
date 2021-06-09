@@ -25,7 +25,16 @@ int main(int argc, char **argv){
           perror("Accept");
           printf(": %s", strerror(errno));
         }else{
-          printf("ACCEPTED CLIENT\n");
+          bzero(msg, sizeof(msg));
+          int n = recv(connfd, msg, sizeof(msg), 0);
+          if(n==-1){
+            perror("Read");
+            printf(": %s", strerror(errno));
+          }
+          printf("MESSAGE FROM CLIENT: %s\n", msg);
+          bzero(msg, sizeof(msg));
+          strcpy(msg, "RECEIVED");
+          send(connfd, msg, sizeof(msg), 0);
         }
       }
       printf("Error accepting");

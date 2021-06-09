@@ -16,7 +16,14 @@ int main(int argc, char **argv){
 
   if(connect(sockfd, &myaddr, sizeof(myaddr))!=-1){
     bzero(msg, sizeof(msg));
-    printf("CONNECTION ESTABLISHED\n");
+    printf("Connection established\n");
+    printf("Enter the message: ");
+    scanf("%[^\n]%*c", msg);
+    send(sockfd, msg, sizeof(msg), 0);
+    printf("Message send\n");
+    bzero(msg, sizeof(msg));
+    recv(sockfd, msg, sizeof(msg), 0);
+    printf("FROM SERVER: %s", msg);
     close(sockfd);
   }else{
     printf("Error binding connecting\n");
